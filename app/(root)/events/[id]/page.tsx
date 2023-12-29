@@ -83,7 +83,7 @@ const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) 
           emptyTitle="No related events found"
           emptyStateSubtext="There are no related events for this category"
           collectionType="All_Events"
-          page={1}
+          page={Number(searchParams?.page) || 1}
           limit={6}
         />
       </section>

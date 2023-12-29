@@ -1,11 +1,19 @@
 import { Button } from '@/components/ui/button'
 import { AllEventResponse, getAllEvents } from '@/lib/actions/event.actions'
+import { SearchParamProps } from '@/types'
+import CategoryFilter from '@components/shared/CategoryFilter'
 import Collection from '@components/shared/Collection'
+import Search from '@components/shared/Search'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default async function Home() {
-  const events: AllEventResponse | null = await getAllEvents({ query: '', category: "", page: 1, limit: 6 })
+export default async function Home({ searchParams }: SearchParamProps) {
+
+  const page = Number(searchParams?.page || 1)
+  const searchText = (searchParams?.query as string) || ''
+  const category = (searchParams?.category as string) || ''
+
+  const events: AllEventResponse | null = await getAllEvents({ query: searchText, category: category, page: page, limit: 6 })
 
   if (!events) return (<div>Error in Fetching Events</div>)
 
@@ -26,11 +34,11 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id='#events' className='wrapper my-8 flex flex-col gap-89 md:gap-12'>
+      <section id='#events' className='wrapper my-8 flex flex-col gap-8 md:gap-12'>
         <h2 className='h2-bold'>Trusted by <br /> Thousands of Event</h2>
         <div className="flex flex-col gap-5 w-full md:flex-row">
-          Search
-          CategoryFilter
+          <Search />
+          <CategoryFilter />
         </div>
 
         <Collection
@@ -39,7 +47,7 @@ export default async function Home() {
           emptyStateSubtext={"Come back later"}
           collectionType="All_Events"
           limit={6}
-          page={1}
+          page={Number(searchParams?.page) || 1}
           totalPages={events.totalPages}
         />
 
