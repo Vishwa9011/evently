@@ -24,7 +24,7 @@ const UpdateEvent = async ({ params: { id } }: UpdateEventProps) => {
         <h3 className="wrapper h3-bold text-center sm:text-left">Update Event</h3>
       </section>
       <div className="wrapper my-8">
-        <EventForm userId={userId} event={event} eventId={event._id} type="Update" />
+        <EventForm userId={userId} event={event} eventId={event._id.toString()} type="Update" />
       </div>
     </>
   )
