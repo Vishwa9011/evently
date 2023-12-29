@@ -98,7 +98,14 @@ export function removeKeysFromQuery({
   );
 }
 
-export const handleError = (error: unknown) => {
-  console.error(error);
-  throw new Error(typeof error === "string" ? error : JSON.stringify(error));
+export const handleError = (error: unknown): never => {
+  if (error instanceof Error) {
+    console.error(error.stack);
+    throw error;
+  } else {
+    const errorMessage =
+      typeof error === "string" ? error : JSON.stringify(error);
+    console.error(errorMessage);
+    throw new Error(errorMessage);
+  }
 };
