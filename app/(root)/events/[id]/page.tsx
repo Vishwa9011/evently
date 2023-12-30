@@ -7,6 +7,8 @@ import Image from "next/image";
 
 const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) => {
 
+  await new Promise(resolve => setTimeout(resolve, 2000));
+
   const event = await getEventById(id);
   if (event === null) {
     return <p>Event not found</p>
@@ -17,8 +19,6 @@ const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) 
     eventId: event._id,
     page: searchParams.page as string,
   });
-
-
 
   return (
     <>
